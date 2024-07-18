@@ -5,16 +5,18 @@ import (
 	"backend_article/pkg/mysql"
 	"backend_article/routes"
 	"fmt"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
-	// errEnv := godotenv.Load()
-	// if errEnv != nil {
-	// 	panic("Failed to load env file")
-	// }
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		panic("Failed to load env file")
+	}
 	e := echo.New()
 
 	mysql.DatabaseInit()
@@ -28,10 +30,10 @@ func main() {
 
 	routes.RouteInit(e.Group("/api/v1"))
 
-	// PORT := os.Getenv("PORT")
+	PORT := os.Getenv("PORT")
 
-	// fmt.Println("server running localhost:" + PORT)
-	fmt.Println("server running localhost:5000")
-	// e.Logger.Fatal(e.Start(":" + PORT))
-	e.Logger.Fatal(e.Start("localhost:5000"))
+	fmt.Println("server running localhost:" + PORT)
+	e.Logger.Fatal(e.Start(":" + PORT))
+	// fmt.Println("server running localhost:5000")
+	// e.Logger.Fatal(e.Start("localhost:5000"))
 }
